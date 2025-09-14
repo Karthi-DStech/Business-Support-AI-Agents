@@ -10,7 +10,7 @@ They’re modular, cost-aware and built to keep humans in control where it matte
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Automated Customer Sentiment Analysis - Logging & Reply Email </b></summary>
 
 **A fully automated customer-feedback pipeline built with n8n.**
 
@@ -27,7 +27,7 @@ This workflow provides a seamless loop—from feedback capture to sentiment insi
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Customer Support & Booking AI Agent for Any Business </b></summary>
 An intelligent restaurant-assistant workflow built with **n8n**, **OpenAI**, and **Postgres PGVector**.
 
 - **Conversational Support**: Incoming chat messages trigger “Rachel,” a friendly AI agent trained to answer questions about Bella Vista’s menu, hours, and policies using a PGVector knowledge base and persistent Postgres chat memory for context.  
@@ -45,7 +45,7 @@ This setup delivers a **full-service, always-on booking and support agent**, ble
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Finance Tracking AI System and Logging </b></summary>
 
 An AI-powered personal finance assistant that records and organizes every expense or income you mention in chat.
 
@@ -70,7 +70,7 @@ This workflow acts as a **hands-free personal bookkeeping system**, turning ever
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Full Automated Onboading System for Clients </b></summary>
 An AI-driven intake pipeline that transforms a simple web form into a fully automated onboarding process.
 
 - **Intelligent Data Capture** – Clients submit name, contact info, industry, and project goals through a styled onboarding form. Two LLM agents (GPT-4.1 / GPT-4o with OpenRouter fallback) analyze the submission in real time.  
@@ -90,7 +90,7 @@ This workflow shows how **orchestrated LLMs can replace manual onboarding**, del
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Gmail Multi Agent for Automatic Response </b></summary>
 
 A multi-agent email desk that classifies inbound Gmail and drafts polished replies for each scenario—ready for human review.
 
@@ -112,7 +112,7 @@ This workflow delivers a reliable **LLM-assisted inbox**: fast triage, accurate 
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Invoice Processing and DB Management Multi Agent </b></summary>
 
 Always-on pipeline that pulls **PDF invoices** from Gmail, extracts structured data with an LLM, and logs everything in **Notion**.
 
@@ -136,8 +136,9 @@ This workflow turns your inbox into a **hands-free AP pipeline**: reliable captu
 
 
 <details>
-<summary><b> </b></summary>
-Hands-free month-end rollup: drop a folder of PDFs into **Google Drive** and get a **Notion** summary + email recap.
+<summary><b> Monthly Invoice Summarising & Mail Notif & DB Manager Agent </b></summary>
+
+Hands-free month-end rollup. Just drop a folder of PDFs into **Google Drive** and get a **Notion** summary + email recap.
 
 - **Drive Watch & Prep** – When a new folder appears in **Monthly Invoices**, the workflow waits 2 minutes, lists all PDFs, downloads and OCRs them for clean text.  
 
@@ -155,7 +156,7 @@ This delivers a dependable **month-close assistant**: accurate categorization, c
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Nutritionist & Gmail Alert Multi Agent </b></summary>
 A multimodal nutrition coach that reads **texts, voice notes, and meal photos** from Telegram, estimates macros with vision LLMs, logs everything to Sheets, and gives **goal-aware guidance**.
 
 - **Multimodal intake** — Detects message type (text/voice/image). Voice is **transcribed**; images are uploaded (Drive/Cloudinary) and passed to a **vision LLM** for itemization, portion sizing, and macro/calorie ranges with clear assumptions.  
@@ -180,7 +181,7 @@ Best for busy professionals who want fast nutrition feedback, minimal typing, an
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> Real Estate Multi Agent </b></summary>
 Automates real-estate lead analysis: from a user form to a daily email of the best investment opportunities.
 
 **How It Works**
@@ -210,7 +211,7 @@ Automates real-estate lead analysis: from a user form to a daily email of the be
 
 
 <details>
-<summary><b> </b></summary>
+<summary><b> WhatsApp Agent & Supabase Datastore </b></summary>
 A WhatsApp chatbot with **persistent memory** powered by Supabase and GPT-4o-mini.
 
 **Business Logic**
