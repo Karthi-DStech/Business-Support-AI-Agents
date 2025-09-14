@@ -1,0 +1,462 @@
+{
+  "name": "Customer Feedback Sentiment Analysis - Email & Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Customer Feedback",
+        "formDescription": "We value your feedback! Let us know about your experience and what we can improve",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Please enter your name...",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Please enter your email...",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Feedback",
+              "fieldType": "textarea",
+              "placeholder": "Please describe your experience...",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -592,
+        32
+      ],
+      "id": "ebe87653-b9da-4681-adea-2c97f4de6770",
+      "name": "On form submission",
+      "webhookId": "282d71a8-bf16-49c1-8f77-35c6219c63f2"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.Feedback }}",
+        "options": {
+          "categories": "Positive, Negative"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
+      "typeVersion": 1.1,
+      "position": [
+        -384,
+        32
+      ],
+      "id": "683e33e4-0c08-4d0c-9474-57427814c709",
+      "name": "Sentiment Analysis"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY",
+          "mode": "list",
+          "cachedResultName": "Onboarding Customer - n8n Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 97988487,
+          "mode": "list",
+          "cachedResultName": "Positive",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit#gid=97988487"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Name": "={{ $('On form submission').item.json.Name }}",
+            "Feedback": "={{ $('On form submission').item.json.Feedback }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback",
+              "displayName": "Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -32,
+        -64
+      ],
+      "id": "271dba6b-f488-4fd7-9032-afe025056806",
+      "name": "Add Positive Feedback",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g62aPaDM3pwCW5wa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a customer support representative for an AI Automation Agency known as AdaptifyAI specialized in helping SME implement AI Agents and AI Automation solutions.\n\nWrite a friendly response to the customer feedback beloe. Format as HTML email and sign from Marc at AdaptifyAI. Return only HTML code, do not include ```html\n\nCustomer Name:\n\n {{ $('On form submission').item.json.Name }}\n\nFeedback:\n\n{{ $('On form submission').item.json.Feedback }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        176,
+        -64
+      ],
+      "id": "e03c5a48-38ea-4372-832a-cbc87144cb42",
+      "name": "Write Positive Response"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "Thank you for your valuable feedback",
+        "message": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        528,
+        -64
+      ],
+      "id": "027de719-7f78-4125-8038-60b983e07642",
+      "name": "Send response to positive feedback",
+      "webhookId": "9041a35a-efcc-475f-9411-e5a58fe9bdd0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ErtpPCkx8AJJHYWN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a customer support representative for an AI Automation Agency known as AdaptifyAI specialized in helping SME implement AI Agents and AI Automation solutions.\n\nA client jst submitted feedback about our services which you can see below.\n\nPlease provide a concise suggestion on what AdaptifyAI cando to address their concerns and improve client  satisfaction in the future\n\n\n\nFeedback:\n\n{{ $('On form submission').item.json.Feedback }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        160,
+        176
+      ],
+      "id": "6ef538d7-b5a8-4f48-b89a-21ec86452a33",
+      "name": "Suggests Improvements"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY",
+          "mode": "list",
+          "cachedResultName": "Onboarding Customer - n8n Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 948426121,
+          "mode": "list",
+          "cachedResultName": "Negative",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit#gid=948426121"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('On form submission').item.json.Email }}",
+            "Name": "={{ $('On form submission').item.json.Name }}",
+            "Feedback": "={{ $('On form submission').item.json.Feedback }}",
+            "AI Suggestion": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback",
+              "displayName": "Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AI Suggestion",
+              "displayName": "AI Suggestion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        512,
+        176
+      ],
+      "id": "93dd1e51-887d-4e0d-9a69-239aff8d3db7",
+      "name": "Add Negative Feedback",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g62aPaDM3pwCW5wa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a customer support representative for an AI Automation Agency known as AdaptifyAI specialized in helping SME implement AI Agents and AI Automation solutions.\n\nWrite a friendly  and concise response to the followin customer feedback. \n\nThe email should thank the client for their feedback about the services, acknowledge thei concerns, and inform that this has been escalated to our management . Offer to extend their current autmaton package with one additional AI Agent integration at no extra charge.\n\n\nFormat as HTML email and sign from Marc at AdaptifyAI. Return only HTML code, do not include ```html\n\nCustomer Name:\n\n {{ $('On form submission').item.json.Name }}\n\nFeedback:\n\n{{ $('On form submission').item.json.Feedback }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        784,
+        176
+      ],
+      "id": "79cc0b1f-437f-4da9-b219-c4f37855eb03",
+      "name": "Write Apology Email"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "We're sorry here's how we'll fih this ",
+        "message": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1136,
+        176
+      ],
+      "id": "1d0fab7d-9c2c-4961-9316-acb68c727d80",
+      "name": "Send a message",
+      "webhookId": "7a0dc0d3-fc93-42e5-9ba8-178a603100ae",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ErtpPCkx8AJJHYWN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        528
+      ],
+      "id": "37633fda-d7df-4073-9bb5-45be5e0f99f8",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "d1RrJhuQEEGg13fu",
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Add Positive Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Suggests Improvements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Positive Feedback": {
+      "main": [
+        [
+          {
+            "node": "Write Positive Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Positive Response": {
+      "main": [
+        [
+          {
+            "node": "Send response to positive feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suggests Improvements": {
+      "main": [
+        [
+          {
+            "node": "Add Negative Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Negative Feedback": {
+      "main": [
+        [
+          {
+            "node": "Write Apology Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Apology Email": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Write Positive Response",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Suggests Improvements",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Write Apology Email",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c0a2d2d3-855b-4611-95e3-e5d639586c0c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "24dd340f6bb549f3d72d9d05832c632914de22465e0487c3e679c6164655a698"
+  },
+  "id": "fdj1McZuadxzoHl9",
+  "tags": []
+}

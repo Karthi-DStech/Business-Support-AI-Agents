@@ -1,0 +1,480 @@
+{
+  "name": "Onboarding System for Clients - Email & Sheets Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Onboarding System",
+        "formDescription": "Please fulfil all of our fields. ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Full Name",
+              "placeholder": "Enter your Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Preferred Name",
+              "placeholder": "Preferred Name to call (Optional)"
+            },
+            {
+              "fieldLabel": "Contact Number",
+              "fieldType": "number",
+              "placeholder": "Please enter your number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Please enter your email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Company Industry",
+              "placeholder": "e.g. Healthcare, Finance ",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Which challenges are you looking to solve with our support?",
+              "placeholder": "Please describe your Goals & Expectations",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "customCss": ":root {\n\t--font-family: 'Open Sans', sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\n\t/* Font sizes (reduced slightly) */\n\t--font-size-body: 11px;\n\t--font-size-label: 13px;\n\t--font-size-test-notice: 11px;\n\t--font-size-input: 13px;\n\t--font-size-header: 18px;\n\t--font-size-paragraph: 13px;\n\t--font-size-link: 11px;\n\t--font-size-error: 11px;\n\t--font-size-html-h1: 26px;\n\t--font-size-html-h2: 18px;\n\t--font-size-html-h3: 15px;\n\t--font-size-html-h4: 13px;\n\t--font-size-html-h5: 11px;\n\t--font-size-html-h6: 10px;\n\t--font-size-subheader: 13px;\n\n\t/* Colors (kept same as your original) */\n\t--color-background: #fbfcfe;\n\t--color-test-notice-text: #e6a23d;\n\t--color-test-notice-bg: #fefaf6;\n\t--color-test-notice-border: #f6dcb7;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #dbdfe7;\n\t--color-card-shadow: rgba(99, 77, 255, 0.06);\n\t--color-link: #7e8186;\n\t--color-header: #525356;\n\t--color-label: #555555;\n\t--color-input-border: #dbdfe7;\n\t--color-input-text: #71747A;\n\t--color-focus-border: rgb(90, 76, 194);\n\t--color-submit-btn-bg: #ff6d5a;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #ea1f30;\n\t--color-required: #ff6d5a;\n\t--color-clear-button-bg: #7e8186;\n\t--color-html-text: #555;\n\t--color-html-link: #ff6d5a;\n\t--color-header-subtext: #7e8186;\n\n\t/* Border Radii */\n\t--border-radius-card: 6px;  /* was 8px */\n\t--border-radius-input: 5px; /* was 6px */\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 6px;\n\n\t/* Spacing (reduced for compactness) */\n\t--padding-container-top: 16px;  /* was 24px */\n\t--padding-card: 16px;           /* was 24px */\n\t--padding-test-notice-vertical: 8px;  \n\t--padding-test-notice-horizontal: 16px;\n\t--margin-bottom-card: 12px;     /* was 16px */\n\t--padding-form-input: 8px;      /* was 12px */\n\t--card-padding: 16px;           /* was 24px */\n\t--card-margin-bottom: 12px;     /* was 16px */\n\n\t/* Dimensions (reduced for smaller size) */\n\t--container-width: 380px;       /* was 448px */\n\t--submit-btn-height: 42px;      /* was 48px */\n\t--checkbox-size: 16px;          /* was 18px */\n\n\t/* Others */\n\t--box-shadow-card: 0px 3px 12px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.5;\n}"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -592,
+        224
+      ],
+      "id": "5add5b00-d15a-4784-8611-232742104eb8",
+      "name": "On form submission",
+      "webhookId": "9ad8011b-fd16-481a-8a8c-7683712450a2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Can you generate a warm and professional welcome email for a new client based on the information provided? The message should be friendly, brief, and personalized—while still sounding professional. Also format as HTML email and  return only HTML code, do not include ```html\n\nIt should reflect the clientʼs industry and their goals for our collaboration. Below is the clientʼs information:\n\nName: {{ $json['Full Name'] }}\n\nEmail: {{ $json.Email }}\n\nCompany Industry: {{ $json['Company Industry'] }}\n\nGoals for the Partnership: {{ $json['Which challenges are you looking to solve with our support?'] }}\n\nMake sure to always end the email with the following sign-off:\n\nBest regards, \nKarthik \nAI Solution Architect \nVisionary AI Solutions Corp.",
+        "needsFallback": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "c0349f1c-3eab-4f8e-b973-587a2aff738a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        256
+      ],
+      "id": "03e63966-89df-4ca2-b64a-58b79577f213",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "d1RrJhuQEEGg13fu",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        256
+      ],
+      "id": "ad7cc3ca-8307-45cf-a10c-6789749fac75",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Parse the JSON Query and output the parameters separately: \n\nSubject: Welcome to Visionary AI Solutions Corp.\n\nBody: Parse the body as HTML code as how output was given from previous node.\n\nEmail:  {{ $('On form submission').item.json.Email }}",
+              "role": "system"
+            },
+            {
+              "content": "={{ $json.output }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "897a5012-90f6-4dfe-ae84-687699559a3c",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.message.content.Email }}",
+        "subject": "={{ $json.message.content.Subject }}",
+        "message": "={{ $json.message.content.Body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        704,
+        -16
+      ],
+      "id": "69a2f3e1-1ee3-4f43-8b97-92f6f3d8333e",
+      "name": "Send a message",
+      "webhookId": "cc017f64-a1b1-4dd0-a1a6-c4615bd7772d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ErtpPCkx8AJJHYWN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Use the client details below to generate a clear summary of their profile. Here is the information provided: \n\nName: {{ $json['Full Name'] }}\n\nCompany Industry: {{ $json['Company Industry'] }}\n\nGoals with Us: {{ $json['Which challenges are you looking to solve with our support?'] }}\n \n----\nReturn the following fields separately:\n\nName:{{ $json['Full Name'] }}\n\nEmail:{{ $json.Email }}\n\nPhone Number: {{ $json['Contact Number'] }}\n\nSummary: A concise overview of the client based on the information provided above",
+        "needsFallback": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        464
+      ],
+      "id": "bf4b01fd-6232-4868-850f-eeb713536174",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        736
+      ],
+      "id": "bcdbc858-f7ad-43a3-a00a-4e7f4931ed9f",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "d1RrJhuQEEGg13fu",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        112,
+        736
+      ],
+      "id": "c8c47cce-fba0-4f0d-9d1f-d9df1ec792b8",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Parse the JSON Query into 4 fields: \n\nName:\nEmail:\nPhone Number:\nSummary:\n\n",
+              "role": "system"
+            },
+            {
+              "content": "={{ $json.output }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        320,
+        464
+      ],
+      "id": "46e437cb-4fde-4cf7-9139-f166a118f01e",
+      "name": "Message a model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY",
+          "mode": "list",
+          "cachedResultName": "Onboarding Customer - n8n Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.message.content.Name }}",
+            "Email": "={{ $json.message.content.Email }}",
+            "Phone Number": "={{ $json.message.content[\"Phone Number\"] }}",
+            "Summary": "={{ $json.message.content.Summary }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        464
+      ],
+      "id": "f70ec0d9-d791-41a9-a7b5-f7a607f5cc29",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g62aPaDM3pwCW5wa",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8d3994d1-9aa4-47ae-b267-51f6e0330fce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "24dd340f6bb549f3d72d9d05832c632914de22465e0487c3e679c6164655a698"
+  },
+  "id": "dYNQtXMrfScTl6es",
+  "tags": []
+}

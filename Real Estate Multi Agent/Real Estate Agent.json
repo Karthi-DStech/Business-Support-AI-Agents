@@ -1,0 +1,830 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Real Estate - Submission From",
+        "formDescription": "Provide all necessary details",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Location",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Status",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "forSale"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Minimum Price",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Maxiumum Price",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Minimum Number of Beds",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Minimum Number of Bathrooms",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "sortselection",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "pricea"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Multi Family?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "true"
+                  },
+                  {
+                    "option": "false"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1264,
+        -16
+      ],
+      "id": "9a37a33c-494e-488c-ae8a-29bfaf057c42",
+      "name": "On form submission",
+      "webhookId": "f5fda5c7-528f-434b-a5ec-ef581460f34a"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        -16
+      ],
+      "id": "fbc3ff3b-a160-4b42-af87-a3b4ac1d1a53",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "61808fe0-e112-4a59-8144-000e01a740a4",
+              "name": "Address",
+              "value": "={{ $json.streetAddress }} {{ $json.city }} {{ $json.state }} {{ $json.zipcode }} {{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "e1ba14f2-70e7-45b8-9689-e7a67e8e727d",
+              "name": "homeStatus",
+              "value": "={{ $json.homeStatus }}",
+              "type": "string"
+            },
+            {
+              "id": "22976b2a-368a-4df6-9908-9b3c0bd67399",
+              "name": "homeType",
+              "value": "={{ $json.homeType }}",
+              "type": "string"
+            },
+            {
+              "id": "26c0e27b-f33b-4a2a-8702-132fc8521f85",
+              "name": "totalSize",
+              "value": "={{ $json.lotAreaValue }} {{ $json.lotAreaUnit }}",
+              "type": "string"
+            },
+            {
+              "id": "50a25013-928b-414b-bf93-e400302e0247",
+              "name": "LivingArea",
+              "value": "={{ $json.livingArea }} sqft",
+              "type": "string"
+            },
+            {
+              "id": "32605b14-d600-46c8-8311-45e40e86acc2",
+              "name": "price",
+              "value": "={{ $json.price }}",
+              "type": "number"
+            },
+            {
+              "id": "ccf8f3da-2d3e-4bb2-8b75-a2e30973b12c",
+              "name": "taxAssessedValue",
+              "value": "={{ $json.taxAssessedValue }}",
+              "type": "number"
+            },
+            {
+              "id": "e9b164b6-e2e2-42ae-8598-e4cedaf95590",
+              "name": "zestimate",
+              "value": "={{ $json.zestimate }}",
+              "type": "number"
+            },
+            {
+              "id": "f38c9d38-378d-4f0c-b978-649a00887deb",
+              "name": "rentZestimate",
+              "value": "={{ $json.rentZestimate }}",
+              "type": "number"
+            },
+            {
+              "id": "b8fe491f-1d3c-4c29-aefe-305360da4e63",
+              "name": "priceReduction",
+              "value": "={{ $json.priceReduction }}",
+              "type": "string"
+            },
+            {
+              "id": "86af9672-e138-46dc-8f7d-760896eec1c0",
+              "name": "bathrooms",
+              "value": "={{ $json.bathrooms }}",
+              "type": "number"
+            },
+            {
+              "id": "f0ab77e3-82de-4eac-9e71-f4c40fe8b59e",
+              "name": "bedrooms",
+              "value": "={{ $json.bedrooms }}",
+              "type": "number"
+            },
+            {
+              "id": "b1381cf6-16a7-48f3-b6ce-57488c3a34c5",
+              "name": "isNonOwnerOccupied",
+              "value": "={{ $json.isNonOwnerOccupied }}",
+              "type": "boolean"
+            },
+            {
+              "id": "96608580-d7dc-408a-93f6-652053b5e10d",
+              "name": "isPreforeclosureAuction",
+              "value": "={{ $json.isPreforeclosureAuction }}",
+              "type": "boolean"
+            },
+            {
+              "id": "c6bcb998-54a8-4b16-a475-bb70aeefd8c6",
+              "name": "isPremierBuilder",
+              "value": "={{ $json.isPremierBuilder }}",
+              "type": "boolean"
+            },
+            {
+              "id": "3239c03a-ff22-40cd-bd0c-4a25b6c137aa",
+              "name": "isShowcaseListing",
+              "value": "={{ $json.isShowcaseListing }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -592,
+        -16
+      ],
+      "id": "75303dbb-6703-4b12-924b-39663e14c28f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── CONFIGURABLE ASSUMPTIONS ─────────────────────────────────────────\nconst downPaymentPct     = 0.20;   // 20 % down\nconst closingCostPct     = 0.03;   // 3 % closing costs\nconst annualInterestRate = 0.05;   // 5 % APR\nconst loanTermYears      = 30;     // 30‑yr mortgage\nconst propertyTaxRate    = 0.012;  // 1.2 % of assessed value per year\nconst insuranceRate      = 0.003;  // 0.3 % of price per year\nconst maintenanceRate    = 0.01;   // 1 % of price per year\n// ─────────────────────────────────────────────────────────────────────\n\n// IMPORTANT for n8n: return array of { json: … }\nreturn items.map(item => {\n\n  // —— raw inputs (fall back to 0 if missing) ————————————————\n  const j              = item.json;\n  const price          = parseFloat(j.price)           || 0;\n  const rent           = parseFloat(j.rentZestimate)   || 0;\n  const livingArea     = parseFloat(j.LivingArea)      || 0;  // sqft\n  const zEstimate      = parseFloat(j.zestimate)       || 0;\n  const taxAssessedVal = parseFloat(j.taxAssessedValue)|| price;\n  // ————————————————————————————————————————————————————————\n\n  // —— Financing ——————————————————————————\n  const downPayment    = price * downPaymentPct;\n  const closingCosts   = price * closingCostPct;\n  const loanAmount     = price - downPayment;\n  const monthlyRate    = annualInterestRate / 12;\n  const numPayments    = loanTermYears * 12;\n  const mortgagePayment= loanAmount * monthlyRate /\n                         (1 - Math.pow(1 + monthlyRate, -numPayments));\n\n  // —— Operating expenses ———————————————\n  const annualTax      = taxAssessedVal * propertyTaxRate;\n  const annualIns      = price * insuranceRate;\n  const annualMaint    = price * maintenanceRate;\n\n  const monthlyTax     = annualTax   / 12;\n  const monthlyIns     = annualIns   / 12;\n  const monthlyMaint   = annualMaint / 12;\n\n  // —— Cash‑flow & returns ——————————————\n  const totalMonthlyExp = mortgagePayment + monthlyTax + monthlyIns + monthlyMaint;\n  const monthlyCashFlow = rent - totalMonthlyExp;\n  const annualCashFlow  = monthlyCashFlow * 12;\n\n  const capRate         = annualCashFlow / price;                 // NOI ÷ price\n  const cashOnCashROI   = annualCashFlow / (downPayment + closingCosts);\n\n  // —— Extra metrics ————————————————\n  const pricePerSqft    = livingArea ? price / livingArea : 0;\n  const rentPerSqft     = livingArea ? rent  / livingArea : 0;\n  const rentToPricePct  = price ? (rent * 12) / price : 0;        // GRM inverse\n  const priceVsZestPct  = zEstimate ? (price - zEstimate) / zEstimate : 0;\n  // ————————————————————————————————————————————————————————\n\n  // —— Attach everything to output JSON ——\n  Object.assign(j, {\n    downPayment:          +downPayment.toFixed(2),\n    closingCosts:         +closingCosts.toFixed(2),\n    loanAmount:           +loanAmount.toFixed(2),\n    mortgagePayment:      +mortgagePayment.toFixed(2),\n\n    monthlyPropertyTax:   +monthlyTax.toFixed(2),\n    monthlyInsurance:     +monthlyIns.toFixed(2),\n    monthlyMaintenance:   +monthlyMaint.toFixed(2),\n    totalMonthlyExpenses: +totalMonthlyExp.toFixed(2),\n\n    monthlyCashFlow:      +monthlyCashFlow.toFixed(2),\n    annualCashFlow:       +annualCashFlow.toFixed(2),\n\n    capRate:              +capRate.toFixed(4),         // 0.0523 ➜ 5.23 %\n    cashOnCashROI:        +cashOnCashROI.toFixed(4),   // 0.1234 ➜ 12.34 %\n\n    pricePerSqft:         +pricePerSqft.toFixed(2),\n    rentPerSqft:          +rentPerSqft.toFixed(2),\n    rentToPricePct:       +(rentToPricePct*100).toFixed(2), // % of price per yr\n    priceVsZestimatePct:  +(priceVsZestPct*100).toFixed(2) // over/under %\n  });\n\n  // Return a proper n8n item\n  return { json: j };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        -16
+      ],
+      "id": "c718a8d9-205e-467e-8601-9d0c92784595",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1_99hLmLmw4VIZS7nikZssouRRV24WPNG1U-_BL7Igyk",
+          "mode": "list",
+          "cachedResultName": "Real Estate Deals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_99hLmLmw4VIZS7nikZssouRRV24WPNG1U-_BL7Igyk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_99hLmLmw4VIZS7nikZssouRRV24WPNG1U-_BL7Igyk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Address": "={{ $json.Address }}",
+            "homeStatus": "={{ $json.homeStatus }}",
+            "homeType": "={{ $json.homeType }}",
+            "totalSize": "={{ $json.totalSize }}",
+            "LivingArea": "={{ $json.LivingArea }}",
+            "price": "={{ $json.price }}",
+            "taxAssessedValue": "={{ $json.taxAssessedValue }}",
+            "zestimate": "={{ $json.zestimate }}",
+            "rentZestimate": "={{ $json.rentZestimate }}",
+            "priceReduction": "={{ $json.priceReduction }}",
+            "bathrooms": "={{ $json.bathrooms }}",
+            "bedrooms": "={{ $json.bedrooms }}",
+            "isNonOwnerOccupied": "={{ $json.isNonOwnerOccupied }}",
+            "isPreforeclosureAuction": "={{ $json.isPreforeclosureAuction }}",
+            "isPremierBuilder": "={{ $json.isPremierBuilder }}",
+            "isShowcaseListing": "={{ $json.isShowcaseListing }}",
+            "downPayment": "={{ $json.downPayment }}",
+            "closingCosts": "={{ $json.closingCosts }}",
+            "loanAmount": "={{ $json.loanAmount }}",
+            "mortgagePayment": "={{ $json.mortgagePayment }}",
+            "monthlyPropertyTax": "={{ $json.monthlyPropertyTax }}",
+            "monthlyInsurance": "={{ $json.monthlyInsurance }}",
+            "monthlyMaintenance": "={{ $json.monthlyMaintenance }}",
+            "totalMonthlyExpenses": "={{ $json.totalMonthlyExpenses }}",
+            "monthlyCashFlow": "={{ $json.monthlyCashFlow }}",
+            "annualCashFlow": "={{ $json.monthlyCashFlow }}",
+            "capRate": "={{ $json.capRate }}",
+            "cashOnCashROI": "={{ $json.cashOnCashROI }}",
+            "pricePerSqft": "={{ $json.pricePerSqft }}",
+            "rentPerSqft": "={{ $json.rentPerSqft }}",
+            "rentToPricePct": "={{ $json.rentToPricePct }}",
+            "priceVsZestimatePct": "={{ $json.priceVsZestimatePct }}"
+          },
+          "matchingColumns": [
+            "Address"
+          ],
+          "schema": [
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "homeStatus",
+              "displayName": "homeStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "homeType",
+              "displayName": "homeType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "totalSize",
+              "displayName": "totalSize",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LivingArea",
+              "displayName": "LivingArea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "taxAssessedValue",
+              "displayName": "taxAssessedValue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "zestimate",
+              "displayName": "zestimate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rentZestimate",
+              "displayName": "rentZestimate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "priceReduction",
+              "displayName": "priceReduction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bathrooms",
+              "displayName": "bathrooms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bedrooms",
+              "displayName": "bedrooms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isNonOwnerOccupied",
+              "displayName": "isNonOwnerOccupied",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isPreforeclosureAuction",
+              "displayName": "isPreforeclosureAuction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isPremierBuilder",
+              "displayName": "isPremierBuilder",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isShowcaseListing",
+              "displayName": "isShowcaseListing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "downPayment",
+              "displayName": "downPayment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "closingCosts",
+              "displayName": "closingCosts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "loanAmount",
+              "displayName": "loanAmount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mortgagePayment",
+              "displayName": "mortgagePayment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthlyPropertyTax",
+              "displayName": "monthlyPropertyTax",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthlyInsurance",
+              "displayName": "monthlyInsurance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthlyMaintenance",
+              "displayName": "monthlyMaintenance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "totalMonthlyExpenses",
+              "displayName": "totalMonthlyExpenses",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthlyCashFlow",
+              "displayName": "monthlyCashFlow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "annualCashFlow",
+              "displayName": "annualCashFlow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "capRate",
+              "displayName": "capRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cashOnCashROI",
+              "displayName": "cashOnCashROI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pricePerSqft",
+              "displayName": "pricePerSqft",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rentPerSqft",
+              "displayName": "rentPerSqft",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rentToPricePct",
+              "displayName": "rentToPricePct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "priceVsZestimatePct",
+              "displayName": "priceVsZestimatePct",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -96,
+        208
+      ],
+      "id": "991223be-644d-4756-9ce4-716d4ffd36d0",
+      "name": "Append or update row in sheet"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -208
+      ],
+      "id": "0c17d2bc-2731-47d9-aae8-d78191d78180",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a seasoned real estate investment analyst. Each day, you'll receive a JSON array of property records with fields such as:\n\nAddress\n\nhomeStatus, homeType, size\n\nprice, taxAssessedValue, zestimate, rentZestimate\n\ndownPayment, closingCosts, loanAmount, mortgagePayment\n\nmonthlyPropertyTax, monthlyInsurance, monthlyMaintenance\n\ntotalMonthlyExpenses, monthlyCashFlow, annualCashFlow\n\ncapRate, cashOnCashROI\n\nThe input is available as:\n{{ JSON.stringify($json.data) }}\n\nYour tasks:\n\nWrite a short one-sentence summary of the overall real estate market sentiment.\n\nList the Top 3 properties ranked by cash-on-cash ROI, and for each show:\n\nAddress\n\nROI (%)\n\nMonthly cash flow\n\nList the Top 3 properties ranked by cap rate, and for each show:\n\nAddress\n\nCap rate (%)\n\nAnnual cash flow\n\nHighlight any properties with negative monthly cash flow.\n\nCalculate and display portfolio-wide averages for:\n\nCap rate (%)\n\nCash-on-cash ROI (%)\n\nMonthly cash flow (USD)\n\nSuggest up to two next actions, for example:\n\n“Schedule showings for properties X, Y”\n\n“Consider raising your max price filter to find better cap rates”\n\nFormat your output as a clean daily report with headings and bullet points.\n\nUse the Gmail tool to email this summary.\nSet the email subject to:\nDaily Real Estate KPI Report for {{ $now }}\n(Ensure the date is in YYYY-MM-DD format.)\n\nMake sure the email is HTML formatted and easy to read.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        176,
+        -208
+      ],
+      "id": "31e16bda-08b1-4d79-89cc-983fa469d505",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        -16
+      ],
+      "id": "277ce21f-e759-4531-af71-d71ba9f7a469",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        384,
+        -16
+      ],
+      "id": "f279f9a6-3395-4d9e-be28-5c58105b10bf",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "sendTo": "krystian7431@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        544,
+        -16
+      ],
+      "id": "ea8c839c-9484-4010-978a-f57b657f0d05",
+      "name": "Send a message in Gmail",
+      "webhookId": "b21b1650-90c0-438e-98b1-ae5e18cca950"
+    },
+    {
+      "parameters": {
+        "url": "https://zillow56.p.rapidapi.com/search?",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "location",
+              "value": "={{ $json.Location }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.Status }}"
+            },
+            {
+              "name": "price_min",
+              "value": "={{ $json['Minimum Price'] }}"
+            },
+            {
+              "name": "price_max",
+              "value": "={{ $json['Maxiumum Price'] }}"
+            },
+            {
+              "name": "beds_min",
+              "value": "={{ $json['Minimum Number of Beds'] }}"
+            },
+            {
+              "name": "baths_min",
+              "value": "={{ $json['Minimum Number of Bathrooms'] }}"
+            },
+            {
+              "name": "sortSelection",
+              "value": "={{ $json.sortselection }}"
+            },
+            {
+              "name": "isMultiFamily",
+              "value": "={{ $json['Multi Family?'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1040,
+        -16
+      ],
+      "id": "6815da9b-4a10-4379-b7ca-e55ce6f05e7d",
+      "name": "Find Deals"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Find Deals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Deals": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "24dd340f6bb549f3d72d9d05832c632914de22465e0487c3e679c6164655a698"
+  },
+  "tags": []
+}

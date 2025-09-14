@@ -1,0 +1,412 @@
+{
+  "name": "Finance Tracking AI Agent - Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        -16
+      ],
+      "id": "d7aef372-7bf6-4f00-b6ac-105b6b523c9c",
+      "name": "When chat message received",
+      "webhookId": "e3d8303f-727d-48aa-80c1-437ccb73795c"
+    },
+    {
+      "parameters": {
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant. You are used to save expense or income. Always refer to the year 2025. ",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -16
+      ],
+      "id": "e58dce92-cdef-4dd0-bde5-939c94ca06e4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        288
+      ],
+      "id": "b6cf7c37-e691-4726-b087-99134bd9f035",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "d1RrJhuQEEGg13fu",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        288
+      ],
+      "id": "fa30dd1c-b7db-4ab5-8d22-f8e8b76c90ae",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        288
+      ],
+      "id": "e3cd0c10-24d5-4645-bc30-5fbb025a901b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "name": "expense_database",
+        "description": "call this tool to save the expences to database",
+        "workflowId": {
+          "__rl": true,
+          "value": "iyf4h9umbbyH7MVs",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        320,
+        288
+      ],
+      "id": "665fd250-f707-475e-a10c-df701c9461b9",
+      "name": "Call n8n Workflow Tool1"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        768,
+        0
+      ],
+      "id": "a85b3681-1e10-4317-ac0f-f2f9403297ab",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9f57e784-2a6b-442e-a1e4-3ea27f7350c2",
+              "name": "Response",
+              "value": "={{ $('When chat message received').item.json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -16
+      ],
+      "id": "4e5004d5-a71d-4da1-b152-4549bff3b399",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "text": "=Convert Expense to JSON\n\n {{ $json.query }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Cost",
+              "type": "number",
+              "description": "Expense or Income Cost",
+              "required": true
+            },
+            {
+              "name": "Description",
+              "description": "Expense or Income Description",
+              "required": true
+            },
+            {
+              "name": "Date",
+              "description": "Date of the Operation",
+              "required": true
+            },
+            {
+              "name": "Type",
+              "description": "Either Expense or Income",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        976,
+        0
+      ],
+      "id": "01e16789-12ef-46f1-b837-59a410d3a763",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        896,
+        208
+      ],
+      "id": "23f94fc1-25e8-4fbf-9c76-54611deb7cf7",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "d1RrJhuQEEGg13fu",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY",
+          "mode": "list",
+          "cachedResultName": "Onboarding Customer - n8n Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 309238483,
+          "mode": "list",
+          "cachedResultName": "Expense Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UFShFEbMkxLwoMLeSH3p49y60rIVAl-GyQwPlrmzjhY/edit#gid=309238483"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Description": "={{ $json.output.Description }}",
+            "Cost": "={{ $json.output.Cost }}",
+            "Date": "={{ $json.output.Date }}",
+            "Type": "={{ $json.output.Type }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cost",
+              "displayName": "Cost",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "fae8ad26-faf2-41f1-a81e-cbca69bae4a8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g62aPaDM3pwCW5wa",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1530720f-adb5-4dc1-b4a5-d3f096887330",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "24dd340f6bb549f3d72d9d05832c632914de22465e0487c3e679c6164655a698"
+  },
+  "id": "iyf4h9umbbyH7MVs",
+  "tags": []
+}

@@ -1,0 +1,256 @@
+{
+  "name": "Customer Service & Booking Agent - PGVector & Gmail",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        -32
+      ],
+      "id": "f4a121fd-c444-405a-970d-63a6d0a60428",
+      "name": "When chat message received",
+      "webhookId": "1d4b90ba-9af3-441a-b1a5-586657afc125"
+    },
+    {
+      "parameters": {
+        "sendTo": "n8ndemos@gmail.com",
+        "subject": "New booking",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        704,
+        320
+      ],
+      "id": "b5b8a655-cc14-4cf2-9313-d85520928400",
+      "name": "Make booking",
+      "webhookId": "52f26719-ad94-4e5f-8c9a-edac4aea7d52",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ErtpPCkx8AJJHYWN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        176
+      ],
+      "id": "b2014d60-f806-4d09-b63c-d94c0185dbf0",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        512
+      ],
+      "id": "cce95b06-8c5b-405a-b532-c8a08362524c",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CWAHlKTuOy5ZMHoI",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        176
+      ],
+      "id": "a89c0b95-060a-46f1-a12f-34983d159aef",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "3QG4BJMO3soq5pBz",
+          "name": "Postgres account - n8n automation"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=*Role*\n\nYour name is Rachel, a customer support agent for an Italian restaruant called Bella Vista.\n\nYou are responsible for providing information about the restaurant using the knowledge base system.\n\nPlese ensure your communication style is friendly and to the point.\n\n**Tools**\n\nWhen a customer want to make a booking follow these steps.\n\nCollect essentials details: customer name, email address, party size, preferred date and time  and any special requests the may have.\n\nLet the customer know their booking request has been submitted to the restaurant and they will receive a confirmation shortly.\n\n\nWhen a customer wants to speak with a real person.\n\nGet their name, email or phone number.\n\nuse the Human Support tool to send their details\nTell them their request was submitted and staff will contact them soon.\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -32
+      ],
+      "id": "e09ab4cd-d21e-47ab-b3d0-3521731fd4e2",
+      "name": "Rachel"
+    },
+    {
+      "parameters": {
+        "sendTo": "n8ndemos@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        320
+      ],
+      "id": "f95fbffd-82b0-4b54-9551-616eba641a19",
+      "name": "Human Support",
+      "webhookId": "ab1f47b0-87c3-44bc-967f-03dcaec08371",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ErtpPCkx8AJJHYWN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool to fetch documents related to the restaurant's knowledge base.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        336,
+        272
+      ],
+      "id": "a90cc9f0-a263-4c85-b9f3-eb321dcc0503",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "3QG4BJMO3soq5pBz",
+          "name": "Postgres account - n8n automation"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Rachel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make booking": {
+      "ai_tool": [
+        [
+          {
+            "node": "Rachel",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Rachel",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Rachel",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Human Support": {
+      "ai_tool": [
+        [
+          {
+            "node": "Rachel",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres PGVector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "Rachel",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f9ef6f4b-d768-44d5-a812-9a4258f522bf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "24dd340f6bb549f3d72d9d05832c632914de22465e0487c3e679c6164655a698"
+  },
+  "id": "tNVuclC21fXfsedR",
+  "tags": []
+}
