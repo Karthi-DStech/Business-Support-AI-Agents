@@ -9,6 +9,12 @@ Each workflow shows a repeatable pattern follows:
 They’re modular, cost-aware and built to keep humans in control where it matters (draft-first, guardrails, structured outputs). Also, each workflow is built to industry standards with a modular, component-based architecture where every element is reusable and easy to adapt amd meets new business needs.
 
 
+### 📂 Project Descriptions
+
+✨ Each project is described in detail below. Click a project name to expand and view its full explanation.
+<br><br>
+
+
 <details>
 <summary><b> Automated Customer Sentiment Analysis - Logging & Reply Email </b></summary>
 
