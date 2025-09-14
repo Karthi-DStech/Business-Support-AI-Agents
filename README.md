@@ -4,10 +4,11 @@ This repo is a collection of production-ready n8n workflows that pair LLM agents
 
 Each workflow shows a repeatable pattern follows:
 
-**trigger → capture → understand → LLM reasoning → SaaS action → automate → log → persistent record**
+``` trigger → capture → understand → LLM reasoning → SaaS action → automate → log → persistent record ```
 
 They’re modular, cost-aware and built to keep humans in control where it matters (draft-first, guardrails, structured outputs). Also, each workflow is built to industry standards with a modular, component-based architecture where every element is reusable and easy to adapt amd meets new business needs.
 
+---
 
 ### 📂 Project Descriptions
 
