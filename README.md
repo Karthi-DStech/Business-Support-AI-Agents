@@ -21,7 +21,7 @@ They’re modular, cost-aware and built to keep humans in control where it matte
 <details>
 <summary><b> Automated Customer Sentiment Analysis - Logging & Reply Email </b></summary>
 
-**A fully automated customer-feedback pipeline built with n8n.**
+A fully automated customer-feedback pipeline built with n8n.
 
 - **Collect & Classify**: A public form gathers name, email, and comments, then an OpenRouter-powered LLM performs instant sentiment analysis (Positive / Negative).
 
@@ -37,6 +37,7 @@ This workflow provides a seamless loop—from feedback capture to sentiment insi
 
 <details>
 <summary><b> Customer Support & Booking AI Agent for Any Business </b></summary>
+  
 An intelligent restaurant-assistant workflow built with **n8n**, **OpenAI**, and **Postgres PGVector**.
 
 - **Conversational Support**: Incoming chat messages trigger “Rachel,” a friendly AI agent trained to answer questions about Bella Vista’s menu, hours, and policies using a PGVector knowledge base and persistent Postgres chat memory for context.  
@@ -80,6 +81,7 @@ This workflow acts as a **hands-free personal bookkeeping system**, turning ever
 
 <details>
 <summary><b> Full Automated Onboading System for Clients </b></summary>
+  
 An AI-driven intake pipeline that transforms a simple web form into a fully automated onboarding process.
 
 - **Intelligent Data Capture** – Clients submit name, contact info, industry, and project goals through a styled onboarding form. Two LLM agents (GPT-4.1 / GPT-4o with OpenRouter fallback) analyze the submission in real time.  
@@ -90,9 +92,6 @@ An AI-driven intake pipeline that transforms a simple web form into a fully auto
 This workflow shows how **orchestrated LLMs can replace manual onboarding**, delivering instant, tailored communication while keeping customer data neatly organized for downstream business operations.
 
 </details>
-
-
-
 
 
 
@@ -166,6 +165,7 @@ This delivers a dependable **month-close assistant**: accurate categorization, c
 
 <details>
 <summary><b> Nutritionist & Gmail Alert Multi Agent </b></summary>
+  
 A multimodal nutrition coach that reads **texts, voice notes, and meal photos** from Telegram, estimates macros with vision LLMs, logs everything to Sheets, and gives **goal-aware guidance**.
 
 - **Multimodal intake** — Detects message type (text/voice/image). Voice is **transcribed**; images are uploaded (Drive/Cloudinary) and passed to a **vision LLM** for itemization, portion sizing, and macro/calorie ranges with clear assumptions.  
@@ -191,6 +191,7 @@ Best for busy professionals who want fast nutrition feedback, minimal typing, an
 
 <details>
 <summary><b> Real Estate Multi Agent </b></summary>
+  
 Automates real-estate lead analysis: from a user form to a daily email of the best investment opportunities.
 
 **How It Works**
@@ -221,6 +222,7 @@ Automates real-estate lead analysis: from a user form to a daily email of the be
 
 <details>
 <summary><b> WhatsApp Agent & Supabase Datastore </b></summary>
+  
 A WhatsApp chatbot with **persistent memory** powered by Supabase and GPT-4o-mini.
 
 **Business Logic**
