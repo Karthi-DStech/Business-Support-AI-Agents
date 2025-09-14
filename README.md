@@ -1,8 +1,10 @@
 # Business-Support-AI-Agents
 
-This repo is a collection of production-ready n8n workflows that pair LLM agents with common business systems (Gmail, Google Drive/Sheets, Notion, Supabase, Telegram/WhatsApp). AI agents designed to automate business workflows and customer support processes, enabling real-time query handling, task automation, and decision-making to improve efficiency, reduce manual effort, and enhance customer experience.
+This repo is a **collection of production-ready n8n workflows that pair LLM agents with common business systems** (Gmail, Google Drive/Sheets, Notion, Supabase, Telegram/WhatsApp).
 
-Each workflow shows a repeatable pattern follows:
+**These AI agents designed to automate business workflows and customer support processes, enabling real-time query handling, task automation, and decision-making to improve efficiency, reduce manual effort and enhance customer experience**.
+
+**Each workflow shows a repeatable pattern follows:**
 
 ``` trigger → capture → understand → LLM reasoning → SaaS action → automate → log → persistent record ```
 
